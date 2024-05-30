@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>College Admission Q&A Bot</title>
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        background-color: #f0f0f0;
+    }
+    #chat-container {
+        max-width: 500px;
+        margin: 0 auto;
+        padding: 20px;
+        border: 2px solid #007bff; /* Added border */
+        border-radius: 5px;
+        background-image: url('https://source.unsplash.com/800x600/?college'); /* Added background image */
+        background-size: cover;
+    }
+    #chat-box {
+        height: 400px;
+        overflow-y: scroll;
+        border: 1px solid #ccc;
+        padding: 10px;
+        margin-bottom: 10px;
+        background-color: rgba(255, 255, 255, 0.8); /* Added background color with transparency */
+    }
+    #user-input {
+        width: calc(100% - 70px);
+        padding: 5px;
+        margin-right: 5px;
+    }
+    #send-button {
+        width: 60px;
+        padding: 5px;
+    }
+    #refresh-button {
+        margin-top: 10px;
+    }
+</style>
+</head>
+<body>
+<div id="chat-container">
+    <div id="chat-box"></div>
+    <input type="text" id="user-input" placeholder="Type a message...">
+    <button id="send-button">Send</button>
+    <button id="refresh-button" onclick="refreshPage()">Refresh</button>
+</div>
+
+<script>
+    var context = {};
+
+    function sendMessage() {
+        var userInput = document.getElementById('user-input').value.trim();
+        if (userInput === '') return;
+
+        var chatBox = document.getElementById('chat-box');
+        chatBox.innerHTML += '<div style="margin-bottom: 5px;">You: ' + userInput + '</div>';
+        chatBox.scrollTop = chatBox.scrollHeight;
+
+        document.getElementById('user-input').value = '';
+
+        var botResponse = generateBotResponse(userInput);
+
+        setTimeout(function() {
+            chatBox.innerHTML += '<div style="margin-bottom: 5px;">Bot: ' + botResponse + '</div>';
+            chatBox.scrollTop = chatBox.scrollHeight;
+        }, 500);
+    }
+
+    function generateBotResponse(userInput) {
+        var lowerInput = userInput.toLowerCase();
+        
+        if (!context.previousQueries) context.previousQueries = [];
+        context.previousQueries.push(userInput);
+
+        if (lowerInput.includes('admission procedure')) {
+            return 'The admission procedure involves submitting an application form, providing necessary documents, and appearing for an interview. Would you like details on any specific part of the procedure?';
+        } else if (lowerInput.includes('requirements')) {
+            return 'The admission requirements include a high school diploma, letters of recommendation, a personal statement, and standardized test scores. Do you need more details on any of these?';
+        } else if (lowerInput.includes('deadlines')) {
+            return 'The application deadlines are typically in December for early admission and March for regular admission. Do you have a specific program or term in mind?';
+        } else if (lowerInput.includes('financial aid')) {
+            return 'Financial aid options include scholarships, grants, work-study programs, and student loans. Would you like more information on any of these?';
+        } else if (lowerInput.includes('courses offered')) {
+            return 'Our college offers a wide range of courses across various disciplines such as Science, Arts, Engineering, and Business. Are you looking for courses in a specific field?';
+        } else if (lowerInput.includes('contact information')) {
+            return 'You can reach the admissions office at admissions@college.edu or call us at (123) 456-7890.';
+        } else if (lowerInput.includes('thank you') || lowerInput.includes('thanks')) {
+            return 'You\'re welcome! If you have any more questions, feel free to ask.';
+        } else if (lowerInput.includes('bye')) {
+            return 'Goodbye! Have a great day!';
+        } else {
+            return 'I\'m sorry, I didn\'t understand that. Could you please rephrase your question or ask something else related to college admissions?';
+        }
+    }
+
+    document.getElementById('send-button').addEventListener('click', sendMessage);
+
+    document.getElementById('user-input').addEventListener('keypress', function(event) {
+        if (event.key === 'Enter') {
+            sendMessage();
+        }
+    });
+
+    function refreshPage() {
+        location.reload();
+    }
+</script>
+</body>
+</html>
