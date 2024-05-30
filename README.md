@@ -1,4 +1,4 @@
-for admission process ask these bascic questions:
+for admission process ask these basic questions:
 1) admission procedure
 2) requirement
 3) deadline
